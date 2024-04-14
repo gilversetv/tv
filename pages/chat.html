@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vino - Tag Chat</title>
+   <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <link rel="stylesheet" href="../css/main-style.css">
+</head>
+<body class="tag">
+
+<div id="menu-buttons">
+  <div id="back">
+    <a navi_target href="javascript:void(0);" onclick="tvii.back();" data-sound="SE_WAVE_CANCEL" class="backBtn">
+    </a></div>
+    <div id="remote">
+      <a navi_target data-sound="SE_COMMON_SELECT" class="remoteBtn" onclick="changeChannelDemo(12, 15, 15);" href="javascript:void(0);">
+      </a></div>
+      <div id="doodle">
+        <a navi_target data-sound="SE_POPUP" onclick="showDoodleModal();" class="doodleBtn" href="javascript:void(0);">Doodle
+        </a></div>
+          <div id="exitModal">
+            <a navi_target data-sound="SE_WAVE_CANCEL" class="exitModalBtn" onclick="hideDoodleModal()" href="javascript:void(0);">
+            </a></div>
+            <div id="finishModal">
+              <a navi_target data-sound="SE_COMMON_SELECT" class="finishModalBtn" onclick="" href="javascript:void(0);">
+              </a></div>
+              <div id="homeSign">
+                <a navi_target data-sound="SE_COMMON_SELECT" class="homeSignBtn" href="../index.html">
+                </a></div>
+        </div>
+
+        <div id="vino-values">
+          <input id="moment-value" name="moment_id" type="hidden" value="1">
+          <input id="show-value" name="show_id" type="hidden" value="1">
+          <input id="show-topic-tag" name="show_topic" type="hidden" value="NFL: RAVENS v. BENGALS">
+          <input id="history-latest-value" name="latest_history" type="hidden" value='{"type":"show_page", "show_id":1}'>
+        </div>
+
+        <div id="doodle-modal">
+            <ul class="sidebar-tools">
+              <li><a navi_target id="sidebar-pencil" class="pencil selected"  href="javascript:void(0);"></a></li>
+              <li><a navi_target id="sidebar-feeling" class="feeling"  href="javascript:void(0);"></a></li>
+              <li><a navi_target id="sidebar-delete" class="delete" href="javascript:void(0);"></a></li>
+            </ul>
+        
+              <ul id="pencil-thick-select-popup" class="pencil-thick-select">
+                <li data-sound="SE_WAVE_TOGGLE_CHECK" class="pencil t-big" id="pencil-t-big" onclick="context.lineWidth = '11.0'; selectPenSize(this);"></li>
+                <li data-sound="SE_WAVE_TOGGLE_CHECK" class="pencil t-medium" id="pencil-t-medium" onclick="context.lineWidth = '6.0'; selectPenSize(this);"></li>
+                <li data-sound="SE_WAVE_TOGGLE_CHECK" class="pencil t-normal" id="pencil-t-normal" onclick="context.lineWidth = '3.0'; selectPenSize(this);"></li>
+                <li data-sound="SE_WAVE_TOGGLE_CHECK" class="pencil t-tiny" id="pencil-t-tiny"  onclick="context.lineWidth = '1.0'; selectPenSize(this);"></li>
+              </ul>
+
+              <ul id="feeling-selector-popup" class="feeling-selector">
+                <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling normal selected" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id" value="0" class="feeling-i" checked id="feeling-sel-normal" onclick=""></li>
+                <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling happy" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id" value="1" class="feeling-i" id="feeling-sel-happy" onclick=""></li>
+                <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling like" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id" value="2" class="feeling-i" id="feeling-sel-like" onclick=""></li>
+                <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling surprised" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id" value="3" class="feeling-i" id="feeling-sel-surprise"  onclick=""></li>
+                <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling disgusted" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id" value="4" class="feeling-i" id="feeling-sel-disgust"  onclick=""></li>
+                <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling sad" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id" value="5" class="feeling-i" id="feeling-sel-sad"  onclick=""></li>
+              </ul>
+        
+              <ul class="sidebar-colors" id="sidebar-colors-scroll">
+                <li><a href="javascript:void(0);"></a></li>
+                <li><a navi_target class="red-4" href="javascript:void(0);" onclick="changeColor('#c10303');"></a></li>
+                <li><a navi_target class="red" href="javascript:void(0);" onclick="changeColor('#ff0000');"></a></li>
+                <li><a navi_target class="red-2" href="javascript:void(0);" onclick="changeColor('#fd4c54');"></a></li>
+                <li><a navi_target class="red-3" href="javascript:void(0);" onclick="changeColor('#ffbec2');"></a></li>
+                <li><a navi_target class="pink" href="javascript:void(0);" onclick="changeColor('#f369cf');"></a></li>
+                <li><a navi_target class="black selected" href="javascript:void(0);" onclick="changeColor('#000000');"></a></li>
+                <li><a navi_target class="grey-2" href="javascript:void(0);" onclick="changeColor('#949494');"></a></li>
+                <li><a navi_target class="grey" href="javascript:void(0);" onclick="changeColor('#e7e7e7');"></a></li>
+                <li><a navi_target class="white" href="javascript:void(0);" onclick="changeColor('#FFFFFF');"></a></li>
+                <li><a navi_target class="blue-2" href="javascript:void(0);" onclick="changeColor('#bdefff');"></a></li>
+                <li><a navi_target class="blue-3" href="javascript:void(0);" onclick="changeColor('#78b3f8');"></a></li>
+                <li><a navi_target class="blue-4" href="javascript:void(0);" onclick="changeColor('#7f83e5');"></a></li>
+                <li><a navi_target class="blue" href="javascript:void(0);" onclick="changeColor('#00b0ff');"></a></li>
+                <li><a navi_target class="blue-5" href="javascript:void(0);" onclick="changeColor('#323ad3');"></a></li>
+                <li><a navi_target class="green-3" href="javascript:void(0);" onclick="changeColor('#d2ecb5');"></a></li>
+                <li><a navi_target class="green" href="javascript:void(0);" onclick="changeColor('#7dc335');"></a></li>
+                <li><a navi_target class="green-2" href="javascript:void(0);" onclick="changeColor('#72f88a');"></a></li>
+                <li><a navi_target class="green-4" href="javascript:void(0);" onclick="changeColor('#01b050');"></a></li>
+                <li><a navi_target class="yellow-2" href="javascript:void(0);" onclick="changeColor('#ffff9a');"></a></li>
+                <li><a navi_target class="yellow" href="javascript:void(0);" onclick="changeColor('#ffcb31');"></a></li>
+                <li><a navi_target class="orange" href="javascript:void(0);" onclick="changeColor('#f7852d');"></a></li>
+                <li><a navi_target class="orange-2" href="javascript:void(0);" onclick="changeColor('#a35200');"></a></li>
+                <li><a navi_target class="orange-3" href="javascript:void(0);" onclick="changeColor('#623000');"></a></li>
+                <li><input type="text"  id="colorHexInput" value="#" minlength="7" maxlength="7"></li>
+                <li><a style="height: 75px;" href="javascript:void(0);"></a></li>
+              </ul>
+        
+              <div class="doodle-comment-input">
+                <input type="text" id="doodle-input-value" value="" data-sound="SE_OPEN_TEXT" placeholder="Touch here to add a comment to your Doodle..." maxlength="100" class="doodle-user-input">
+                </div>
+
+            <div id="doodle-content">
+        
+        <p><!-- Tool Selector --> 
+        <select name="selector" id="selector"> 
+        <option value="chalk">Chalk</option> 
+        </select> 
+        </p>
+        
+        <!-- Canvas Begins --> 
+        <canvas id="doodle-canvas" height="407" width="723"> 
+        <p class="noscript">We're sorry, this web application is currently not supported with your browser. Please use an alternate browser or download a supported <br />browser. Supported browsers: <a href="http://www.google.com/chrome">Google Chrome</a>, <a href="http://www.opera.com">Opera</a>, <a href="http://www.mozilla.com">Firefox</a>, <a href="http://www.apple.com/safari">Safari</a>, <br />and <a href="http://www.konqueror.org">Konqueror</a>. Also make sure your JavaScript is enabled.</p> 
+        </canvas>
+        <!-- Canvas Ends -->
+        
+            </div> 
+          </div>
+
+<div class="tag-live-comments" id="tag-live-comments-js">
+
+  <div class="live-comment-input">
+    <a navi_target href="javascript:void(0)" class="user-mii-empathy-toggle" id="user-mii-empathy-toggle-selector">
+      <img class="mii" src="../img/noMii.png">
+    </a>
+    
+    <ul id="feeling-selector-toggle" class="feeling-selector-input">
+      <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling normal selected" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id_chat" value="0" class="feeling-i" checked id="feeling-sel-normal" onclick=""></li>
+      <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling happy" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id_chat" value="1" class="feeling-i" id="feeling-sel-happy" onclick=""></li>
+      <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling like" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id_chat" value="2" class="feeling-i" id="feeling-sel-like" onclick=""></li>
+      <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling surprised" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id_chat" value="3" class="feeling-i" id="feeling-sel-surprise"  onclick=""></li>
+      <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling disgusted" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id_chat" value="4" class="feeling-i" id="feeling-sel-disgust"  onclick=""></li>
+      <li navi_target data-sound="SE_WAVE_TOGGLE_CHECK" class="feeling sad" onmousemove="tvii.addHover(true, this)" onmouseup="tvii.addHover(false, this)" onmouseout="tvii.addHover(false, this)"><input type="radio" name="feeling_id_chat" value="5" class="feeling-i" id="feeling-sel-sad"  onclick=""></li>
+    </ul>
+
+    <input type="text" data-sound="SE_OPEN_TEXT" value="" placeholder="15 comments" minlength="1" maxlength="100" data-sound="SE_WAVE_OK_SUB" id="user-chat-input" class="user-input">
+    </div>
+
+  <div class="live-moment-label">
+    <img class="live-comment-moment-img" src="../img/doodleplaceholder.png">
+    <input data-comment-id="1231" onclick="addYeah(this)" navi_target onmousemove="tvii.addHover(true, this)" onmouseout="tvii.addHover(false, this)" type="button" data-sound="SE_WAVE_OK" class="yeah-button">
+    <p>Arian Foster up the middle of the Houston 46 for 1 yard.</p>
+    <p class="date" data-sound="SE_WAVE_MII_FACE">23 minutes ago • 67 Yeahs</p>
+  </div>
+
+
+<script type="text/javascript" src="../js/vino.js"></script>
+<script type="text/javascript" src="../js/tags.js"></script>
+<script type="text/javascript" src="../js/doodle.js"></script>
+</html>
